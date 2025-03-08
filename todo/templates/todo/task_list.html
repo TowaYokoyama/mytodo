@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  
+</head>
+<body>
+
+    <header>
+        <h1>Task List</h1>
+    </header>
+
+    <div class="container">
+        <h2>Here are your tasks:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr class="fade-in task {% if task.is_completed %}completed{% else %}pending{% endif %}">
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>{{ task.due_date|default:"No due date" }}</td>
+                        <td>
+                            {% if task.is_completed %}
+                                <span>Completed</span>
+                            {% else %}
+                                <span>Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No tasks available</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }} - {{ task.description }}
+                <a href="{% url 'task_edit' task.id %}">Edit</a>
+                <a href="{% url 'task_delete' task.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- ここに JavaScript を読み込む -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

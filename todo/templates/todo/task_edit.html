@@ -1,0 +1,9 @@
+<!-- todo/templates/todo/task_edit.html -->
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<h2>Edit Task</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
